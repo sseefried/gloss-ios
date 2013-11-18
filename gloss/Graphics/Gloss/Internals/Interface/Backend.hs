@@ -1,6 +1,6 @@
 {-# LANGUAGE CPP #-}
 
--- Import window managed backend specific modules. 
+-- Import window managed backend specific modules.
 -- We need to use #ifdef here because if the backend library hasn't been installed
 -- then we won't be able to build it, so it can't be in the import list.
 module Graphics.Gloss.Internals.Interface.Backend
@@ -10,6 +10,9 @@ module Graphics.Gloss.Internals.Interface.Backend
 #endif
 #ifdef WITHGLUT
         , module Graphics.Gloss.Internals.Interface.Backend.GLUT
+#endif
+#ifdef WITHGLIOS
+        , module Graphics.Gloss.Internals.Interface.Backend.GLiOS
 #endif
         , defaultBackendState)
 where
@@ -22,11 +25,18 @@ import Graphics.Gloss.Internals.Interface.Backend.GLFW
 #ifdef WITHGLUT
 import Graphics.Gloss.Internals.Interface.Backend.GLUT
 #endif
+#ifdef WITHGLIOS
+import Graphics.Gloss.Internals.Interface.Backend.GLiOS
+#endif
+
+
 
 #ifdef WITHGLUT
 defaultBackendState :: GLUTState
 #elif  WITHGLFW
 defaultBackendState :: GLFWState
+#elif WITHGLIOS
+defaultBackendState :: GLiOSState
 #else
 #error No default backend defined
 #endif

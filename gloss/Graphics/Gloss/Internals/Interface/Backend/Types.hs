@@ -8,7 +8,6 @@ where
 import Data.IORef
 import Graphics.Gloss.Data.Display
 
-
 -- | The functions every backend window managed backend needs to support.
 --
 --   The Backend module interfaces with the window manager, and handles opening

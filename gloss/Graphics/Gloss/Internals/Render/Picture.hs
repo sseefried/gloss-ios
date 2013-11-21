@@ -56,7 +56,6 @@ renderPicture
         drawPicture (viewPortScale viewS) picture'
         checkErrors "after drawPicture."
 
-
 drawPicture
         :: ( ?modeWireframe     :: Bool
            , ?modeColor         :: Bool
@@ -72,19 +71,15 @@ drawPicture circScale picture
 
         -- line
         Line path
-         -> GL.renderPrimitive GL.LineStrip
-                $ vertexPFs path
-
+         -> renderVertices GL.LineStrip path
 
         -- polygon (where?)
         Polygon path
          | ?modeWireframe
-         -> GL.renderPrimitive GL.LineLoop
-                $ vertexPFs path
+         -> renderVertices GL.LineLoop path
 
          | otherwise
-         -> GL.renderPrimitive GL.Polygon
-                $ vertexPFs path
+         -> renderVertices GL.TriangleFan path
 
         -- circle
         Circle radius
@@ -149,7 +144,6 @@ drawPicture circScale picture
           $ do  GL.translate (GL.Vector3 (gf tx) (gf ty) 0)
                 drawPicture circScale p
 
-
         -- Rotation -----------------------------
         -- Easy rotations are done directly to avoid calling GL.perserveMatrix.
         Rotate _   (Circle radius)
@@ -169,7 +163,6 @@ drawPicture circScale picture
          -> GL.preservingMatrix
           $ do  GL.rotate (gf deg) (GL.Vector3 0 0 (-1))
                 drawPicture circScale p
-
 
         -- Scale --------------------------------
         Scale sx sy p
@@ -367,6 +360,4 @@ vertexPFs []    = return ()
 vertexPFs ((x, y) : rest)
  = do   GL.vertex $ GL.Vertex2 (gf x) (gf y)
         vertexPFs rest
-
-
 

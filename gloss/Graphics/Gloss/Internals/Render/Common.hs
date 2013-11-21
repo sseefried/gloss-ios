@@ -2,6 +2,7 @@
 module Graphics.Gloss.Internals.Render.Common where
 
 import Graphics.Gloss.Internals.Interface.Backend
+import Graphics.Gloss.Data.Point
 import  Graphics.Rendering.OpenGL         (($=))
 import qualified Graphics.Rendering.OpenGL.GL as GL
 import Graphics.Rendering.OpenGL.Raw
@@ -30,7 +31,7 @@ gsizei x = unsafeCoerce x
 --
 -- Precondition: "GL.clientState GL.VertexArray $= GL.Enabled" must have been called.
 --
-renderVertices :: GL.PrimitiveMode -> [(Float, Float)] -> IO ()
+renderVertices :: GL.PrimitiveMode -> [Point] -> IO ()
 renderVertices primMode vs
  = do
   let len = length vs
